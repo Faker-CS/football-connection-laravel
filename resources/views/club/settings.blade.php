@@ -6,7 +6,6 @@
     <div style="border-bottom:1px solid var(--border)">
         <div class="tabs" style="padding:0 1.5rem;border-bottom:none;margin-bottom:0">
             <div class="tab active" onclick="switchTab(this,'tab-info')">Informations club</div>
-            <div class="tab" onclick="switchTab(this,'tab-sub')">Abonnement</div>
             <div class="tab" onclick="switchTab(this,'tab-notif')">Notifications</div>
             <div class="tab" onclick="switchTab(this,'tab-sec')">Sécurité</div>
         </div>
@@ -26,22 +25,6 @@
             </div>
         </div>
         <button class="btn btn-primary mt-1">Sauvegarder</button>
-    </div>
-
-    {{-- Subscription --}}
-    <div class="card-body tab-panel" id="tab-sub" style="display:none">
-        <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem">Votre abonnement</h3>
-        <div class="card" style="background:linear-gradient(135deg,#0a1a18,#1a3a35);color:#fff;padding:1.5rem;border:none;margin-bottom:1rem">
-            <div style="display:flex;align-items:center;justify-content:space-between">
-                <div>
-                    <div class="text-sm" style="color:rgba(255,255,255,.6)">Plan actuel</div>
-                    <div style="font-size:1.3rem;font-weight:800">{{ $club['plan'] }}</div>
-                </div>
-                <x-badge color="green">Actif</x-badge>
-            </div>
-            <div style="color:rgba(255,255,255,.5);font-size:.78rem;margin-top:.5rem">Expire le {{ $club['plan_expiry'] }}</div>
-        </div>
-        <button class="btn btn-outline">Changer de plan</button>
     </div>
 
     {{-- Notifications --}}

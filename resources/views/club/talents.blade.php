@@ -3,7 +3,7 @@
 
 @section('content')
 {{-- Filter Bar --}}
-<div class="card mb-2">
+{{-- <div class="card mb-2">
     <div class="card-body">
         <div class="filter-bar">
             <div class="search-input">
@@ -30,10 +30,10 @@
             </select>
         </div>
     </div>
-</div>
+</div> --}}
 
 {{-- Talent Cards Grid --}}
-<div class="grid-3">
+{{-- <div class="grid-3">
     @foreach($talents as $talent)
     <div class="talent-card">
         <div style="display:flex;align-items:center;gap:.85rem;margin-bottom:.85rem">
@@ -70,5 +70,5 @@
     <button class="pagination-btn">2</button>
     <button class="pagination-btn">3</button>
     <button class="pagination-btn">→</button>
-</div>
+</div> --}}
 @endsection

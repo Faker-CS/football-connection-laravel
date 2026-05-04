@@ -4,14 +4,9 @@
 @section('content')
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
     <h2 style="font-size:1.1rem;font-weight:700">Gestion des candidatures</h2>
-    <select class="form-select" style="width:auto;min-width:160px;padding:.45rem .75rem;font-size:.8rem">
-        <option>Tous les statuts</option>
-        <option>Nouveau</option>
-        <option>En cours</option>
-        <option>Entretien</option>
-        <option>Accepté</option>
-        <option>Refusé</option>
-    </select>
+    <button class="btn btn-primary btn-lg" style="width:auto;min-width:160px;padding:.45rem .75rem;font-size:.8rem">
+        Exporter CSV
+    </button>
 </div>
 
 <x-data-table :headers="['Candidat', 'Offre', 'Club', 'Date', 'Statut', 'Actions']">
@@ -29,10 +24,15 @@
         <td><x-badge :color="$app['status_color']">{{ $app['status'] }}</x-badge></td>
         <td>
             <div class="table-actions">
-                <button class="btn btn-outline btn-sm">Détails</button>
+                <button class="btn btn-outline btn-sm" onclick="openAdminApplicationView('{{ $app['applicant'] }}', '{{ $app['email'] ?? 'email@example.com' }}', '{{ $app['offer'] }}', '{{ $app['club'] }}', '{{ $app['status'] }}', '{{ $app['status_time'] ?? 'Date non spécifiée' }}', '{{ $app['motivation'] ?? 'Pas de lettre de motivation.' }}')">
+                    Détails
+                </button>
             </div>
         </td>
     </tr>
     @endforeach
 </x-data-table>
+
+{{-- Include Admin Application Modal --}}
+@include('components.modals.admin-applications-view')
 @endsection

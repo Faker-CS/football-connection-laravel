@@ -38,15 +38,25 @@
         <td><x-badge :color="$app['status_color']">{{ $app['status'] }}</x-badge></td>
         <td>
             <div class="table-actions">
-                <button class="btn btn-outline btn-sm">Voir</button>
+                <button class="btn btn-primary btn-sm" onclick="openApplicationView('{{ $app['name'] }}', '{{ $app['role'] }}', '{{ $app['offer'] }}', ['Analyse vidéo', 'Tactique', 'Formation jeunes', 'UEFA B'], 'Passionné par le football depuis 15 ans, je souhaite mettre mon expertise au service de votre club.', '{{ $app['initials'] }}')">
+                    Voir
+                </button>
                 @if($app['status'] === 'Nouveau' || $app['status'] === 'En cours')
-                    <button class="btn btn-success btn-sm">Accepter</button>
-                    <button class="btn btn-warning btn-sm">Entretien</button>
-                    <button class="btn btn-danger btn-sm">Refuser</button>
+                    <button class="btn btn-success btn-sm" onclick="openApplicationInvite('{{ $app['name'] }}')">
+                        Inviter
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="openApplicationRefuse('{{ $app['name'] }}')">
+                        Refuser
+                    </button>
                 @endif
             </div>
         </td>
     </tr>
     @endforeach
 </x-data-table>
+
+{{-- Include Application Modals --}}
+@include('components.modals.applications-view')
+@include('components.modals.applications-invite')
+@include('components.modals.applications-refuse')
 @endsection

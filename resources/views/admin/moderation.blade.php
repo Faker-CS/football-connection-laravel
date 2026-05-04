@@ -43,9 +43,12 @@
         <div style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
             <button class="btn btn-success btn-sm">✓ Approuver</button>
             <button class="btn btn-danger btn-sm">✕ Rejeter</button>
-            <button class="btn btn-danger btn-sm" style="background:#7f1d1d;color:#fff;border-color:#7f1d1d">Bannir l'utilisateur</button>
+            <button class="btn btn-danger btn-sm" style="background:#7f1d1d;color:#fff;border-color:#7f1d1d" onclick="openModerationBan('{{ $item['author'] }}')">Bannir l'utilisateur</button>
         </div>
     </div>
 </div>
 @endforeach
+
+{{-- Include Moderation Ban Modal --}}
+@include('components.modals.moderation-ban')
 @endsection

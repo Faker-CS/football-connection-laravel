@@ -273,6 +273,30 @@ table{border-collapse:collapse;width:100%}
 .upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:2rem;text-align:center;color:var(--muted);cursor:pointer;transition:all var(--transition)}
 .upload-zone:hover{border-color:var(--green);background:rgba(172,209,163,.03)}
 
+/* ===== MODALS ===== */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:1000;opacity:0;transition:opacity var(--transition);backdrop-filter:blur(2px)}
+.modal-backdrop.show{display:flex}
+.modal-backdrop.active{opacity:1}
+.modal-container{background:var(--white);border-radius:var(--radius);box-shadow:0 20px 40px rgba(0,0,0,.15);max-width:90vw;max-height:90vh;overflow-y:auto;transform:scale(.95);opacity:0;transition:all var(--transition)}.modal-backdrop.active .modal-container{transform:scale(1);opacity:1}
+.modal-sm{max-width:400px}
+.modal-md{max-width:550px}
+.modal-lg{max-width:750px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 1.75rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.modal-title{font-size:1.1rem;font-weight:700;color:var(--text);margin:0}
+.modal-close{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);transition:all var(--transition);background:transparent;border:none}
+.modal-close:hover{background:var(--bg);color:var(--text)}
+.modal-body{padding:1.75rem}
+
+/* Type Selector for News Form */
+.type-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
+.type-btn{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.85rem;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--white);cursor:pointer;transition:all var(--transition);font-size:.75rem;font-weight:600;color:var(--text)}
+.type-btn:hover{border-color:var(--green);background:rgba(172,209,163,.03)}
+.type-btn.selected{border-color:var(--green);background:rgba(172,209,163,.1);color:var(--green-dark)}
+.type-btn svg{width:24px;height:24px}
+
+/* Form Hint */
+.form-hint{color:var(--muted);font-weight:400;font-size:.7rem}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:1200px){.grid-3{grid-template-columns:repeat(2,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){

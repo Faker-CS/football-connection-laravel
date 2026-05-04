@@ -7,7 +7,7 @@
         <h2 style="font-size:1.1rem;font-weight:700">Mes Publications</h2>
         <p class="text-muted text-sm">Partagez vos connaissances et votre expertise</p>
     </div>
-    <button class="btn btn-primary">+ Créer une publication</button>
+    <button class="btn btn-primary" onclick="ModalManager.open('publicationFormModal')">+ Créer une publication</button>
 </div>
 
 <div class="grid-3">
@@ -33,4 +33,7 @@
     </div>
     @endforeach
 </div>
+
+{{-- Include Publication Modal --}}
+@include('components.modals.publications-form')
 @endsection

@@ -4,8 +4,14 @@
 @section('content')
 {{-- Welcome Banner --}}
 <div class="welcome-banner">
-    <h2>Bonjour, {{ $talent['name'] }} 👋</h2>
+    <div>
+    <h2>Bonjour, {{ $talent['name'] }} !</h2>
     <p>Bienvenue sur votre espace talent. Voici un résumé de votre activité.</p>
+</div>
+    <div style="display: flex; gap: .75rem; flex-shrink: 0; flex-wrap: wrap;">
+        <button class="btn btn-primary btn-lg" onclick="window.location.href='{{ route('talent.profile') }}'">Compléter mon profil</button>
+        <button class="btn btn-dark btn-lg" href="#">Explorer les opportunités</button>
+    </div>
 </div>
 
 {{-- Stats --}}

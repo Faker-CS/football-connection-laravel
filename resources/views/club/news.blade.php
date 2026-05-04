@@ -7,7 +7,7 @@
         <h2 style="font-size:1.1rem;font-weight:700">Actualités & Événements</h2>
         <p class="text-muted text-sm">Gérez vos publications et événements</p>
     </div>
-    <button class="btn btn-primary">+ Créer une actualité</button>
+    <button class="btn btn-primary" onclick="ModalManager.open('newsFormModal')">+ Créer une actualité</button>
 </div>
 
 <div class="grid-2">
@@ -34,4 +34,7 @@
     </div>
     @endforeach
 </div>
+
+{{-- Include Modal --}}
+@include('components.modals.news-form')
 @endsection

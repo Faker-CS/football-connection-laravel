@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Mot de passe</label>
-                    <input type="password" class="form-input" placeholder="••••••••" value="password">
+                    <input type="password" class="form-input" placeholder="********" value="password">
                 </div>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
                     <label class="form-check">
