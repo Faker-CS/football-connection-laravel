@@ -13,6 +13,12 @@ Route::get('/', function () {
 
 // Auth
 Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/logout', function () {
+    auth()->logout();
+    session()->invalidate();
+    session()->regenerateToken();
+    return redirect()->route('login');
+})->name('logout');
 
 // Talent Dashboard
 Route::prefix('talent')->name('talent.')->group(function () {

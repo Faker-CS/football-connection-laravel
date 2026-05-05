@@ -60,5 +60,9 @@
                 <div class="sidebar-user-role">Préparateur Physique</div>
             </div>
         </div>
+        <form method="POST" action="{{ route('logout') }}" style="margin-top: 1rem;">
+            @csrf
+            <button type="submit" style="width: 100%; padding: 0.5rem; border: none; background-color: #e74c3c; color: white; border-radius: 4px; cursor: pointer; font-weight: 500;">Deconnecter</button>
+        </form>
     </div>
 </aside>
