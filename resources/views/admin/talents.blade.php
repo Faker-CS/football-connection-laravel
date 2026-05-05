@@ -10,6 +10,13 @@
     </div>
 </div>
 
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem">
+    <x-stat-card icon="users" color="blue" :value="$stats['total']" label="Total Talents"/>
+    <x-stat-card icon="eye" color="green" :value="$stats['active']" label="Profils Actifs"/>
+    <x-stat-card icon="trending" color="amber" :value="$stats['available']" label="Disponibles"/>
+    <x-stat-card icon="star" color="red" :value="$stats['suspended']" label="Suspendus"/>
+</div>
+
 <x-data-table :headers="['Talent', 'Rôle', 'Localisation', 'Candidatures', 'Inscription', 'Statut', 'Actions']">
     @foreach($talents as $talent)
     <tr>
@@ -37,4 +44,5 @@
     </tr>
     @endforeach
 </x-data-table>
+<x-pagination :total="50" :per-page="10" :current-page="1" />
 @endsection

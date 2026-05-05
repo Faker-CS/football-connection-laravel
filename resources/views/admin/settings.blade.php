@@ -7,7 +7,6 @@
         <div class="tabs" style="padding:0 1.5rem;border-bottom:none;margin-bottom:0">
             <div class="tab active" onclick="switchTab(this,'tab-general')">Général</div>
             <div class="tab" onclick="switchTab(this,'tab-emails')">Templates email</div>
-            <div class="tab" onclick="switchTab(this,'tab-plans')">Limites des plans</div>
         </div>
     </div>
 
@@ -54,29 +53,6 @@
             </label>
         </div>
         @endforeach
-    </div>
-
-    {{-- Plan Limits --}}
-    <div class="card-body tab-panel" id="tab-plans" style="display:none">
-        <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem">Limites des plans</h3>
-        <div style="overflow-x:auto">
-            <table class="data-table">
-                <thead>
-                    <tr><th>Plan</th><th>Offres max</th><th>Candidatures max</th><th>Fonctionnalités</th><th>Actions</th></tr>
-                </thead>
-                <tbody>
-                    @foreach($plan_limits as $plan)
-                    <tr>
-                        <td class="fw-700">{{ $plan['plan'] }}</td>
-                        <td>{{ $plan['max_offers'] == -1 ? 'Illimité' : $plan['max_offers'] }}</td>
-                        <td>{{ $plan['max_applications'] == -1 ? 'Illimité' : $plan['max_applications'] }}</td>
-                        <td><x-badge :color="$plan['plan'] === 'Premium' ? 'green' : ($plan['plan'] === 'Pro' ? 'blue' : 'gray')">{{ $plan['features'] }}</x-badge></td>
-                        <td><button class="btn btn-outline btn-sm">Modifier</button></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 

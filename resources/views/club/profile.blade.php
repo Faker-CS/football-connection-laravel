@@ -2,11 +2,11 @@
 @section('title', 'Mon Club - Club')
 
 @section('content')
-<div class="grid-2" style="grid-template-columns:1fr 2fr">
+<div class="grid-2">
     {{-- Left: Club Card --}}
     <div>
         <div class="card mb-2">
-            <div class="card-body" style="text-align:center;padding:2rem">
+            <div class="card-body" style="text-align:center">
                 <div class="talent-avatar" style="width:80px;height:80px;font-size:1.5rem;margin:0 auto 1rem;background:linear-gradient(135deg,#0a1a18,#1a3a35)">{{ $club['initials'] }}</div>
                 <h3 style="font-size:1.1rem;font-weight:700">{{ $club['name'] }}</h3>
                 <p class="text-muted text-sm">{{ $club['league'] }}</p>

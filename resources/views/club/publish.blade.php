@@ -7,7 +7,7 @@
     <p class="text-muted text-sm">Remplissez les informations pour publier votre offre d'emploi</p>
 </div>
 
-<div class="grid-2" style="grid-template-columns:2fr 1fr">
+<div class="grid-2">
     <div>
         {{-- Main Form --}}
         <div class="card mb-2">

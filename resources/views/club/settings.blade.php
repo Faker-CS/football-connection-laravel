@@ -3,8 +3,8 @@
 
 @section('content')
 <div class="card">
-    <div style="border-bottom:1px solid var(--border)">
-        <div class="tabs" style="padding:0 1.5rem;border-bottom:none;margin-bottom:0">
+    <div style=" solid var(--border)">
+        <div class="tabs">
             <div class="tab active" onclick="switchTab(this,'tab-info')">Informations club</div>
             <div class="tab" onclick="switchTab(this,'tab-notif')">Notifications</div>
             <div class="tab" onclick="switchTab(this,'tab-sec')">Sécurité</div>
@@ -47,11 +47,11 @@
         <div class="form-row">
             <div class="form-group">
                 <label class="form-label">Mot de passe actuel</label>
-                <input type="password" class="form-input" placeholder="••••••••">
+                <input type="password" class="form-input" placeholder="********">
             </div>
             <div class="form-group">
                 <label class="form-label">Nouveau mot de passe</label>
-                <input type="password" class="form-input" placeholder="••••••••">
+                <input type="password" class="form-input" placeholder="********">
             </div>
         </div>
         <button class="btn btn-primary mt-1">Mettre à jour</button>

@@ -135,7 +135,7 @@ table{border-collapse:collapse;width:100%}
 .table-user{display:flex;align-items:center;gap:.65rem}
 .table-user-info .name{font-weight:600;font-size:.82rem}
 .table-user-info .sub{font-size:.72rem;color:var(--muted)}
-.table-actions{display:flex;gap:.4rem}
+.table-actions{display:flex;gap:.4rem;flex-wrap:wrap}
 .table-empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
 
 /* ===== WELCOME BANNER ===== */
@@ -168,8 +168,8 @@ table{border-collapse:collapse;width:100%}
 .toggle input:checked+.toggle-slider::before{transform:translateX(18px)}
 
 /* ===== TABS ===== */
-.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.5rem}
-.tab{padding:.65rem 1.25rem;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all var(--transition)}
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.5rem;overflow-x:auto; overflow-y: hidden ;}
+.tab{padding:.65rem 1.25rem;font-size:.82rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all var(--transition);white-space:nowrap;flex-shrink:0}
 .tab:hover{color:var(--text)}
 .tab.active{color:var(--green-dark);border-bottom-color:var(--green-dark)}
 
@@ -201,10 +201,11 @@ table{border-collapse:collapse;width:100%}
 .progress-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--green-dark),var(--green));transition:width .5s ease}
 
 /* ===== PAGINATION ===== */
-.pagination{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:1.5rem}
-.pagination-btn{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:600;border:1px solid var(--border);cursor:pointer;transition:all var(--transition);background:var(--white)}
-.pagination-btn:hover{background:var(--bg)}
+.pagination{display:flex;align-items:center;justify-content:center;gap:.35rem;margin-top:1.5rem;flex-wrap:wrap}
+.pagination-btn{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:600;border:1px solid var(--border);cursor:pointer;transition:all var(--transition);background:var(--white);text-decoration:none;padding:0}
+.pagination-btn:hover:not(:disabled){background:var(--bg)}
 .pagination-btn.active{background:var(--green-dark);color:#fff;border-color:var(--green-dark)}
+.pagination-btn:disabled{opacity:0.5;cursor:not-allowed}
 
 /* ===== CHART BARS (CSS-based) ===== */
 .chart-bar-group{display:flex;flex-direction:column;gap:.65rem}
@@ -288,7 +289,18 @@ table{border-collapse:collapse;width:100%}
 .modal-body{padding:1.75rem}
 
 /* Type Selector for News Form */
-.type-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
+.type-selector {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(120px, auto);
+
+  gap: .75rem;
+  margin-bottom: 1rem;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 5px;
+}
 .type-btn{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:.85rem;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--white);cursor:pointer;transition:all var(--transition);font-size:.75rem;font-weight:600;color:var(--text)}
 .type-btn:hover{border-color:var(--green);background:rgba(172,209,163,.03)}
 .type-btn.selected{border-color:var(--green);background:rgba(172,209,163,.1);color:var(--green-dark)}
@@ -296,6 +308,9 @@ table{border-collapse:collapse;width:100%}
 
 /* Form Hint */
 .form-hint{color:var(--muted);font-weight:400;font-size:.7rem}
+
+/* ===== TALENT AVATAR ===== */
+.talent-avatar{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.5rem;color:#fff;background:linear-gradient(135deg,var(--green-dark),#4ade80)}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:1200px){.grid-3{grid-template-columns:repeat(2,1fr)}.grid-4{grid-template-columns:repeat(2,1fr)}}
@@ -309,6 +324,13 @@ table{border-collapse:collapse;width:100%}
   .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .form-row{grid-template-columns:1fr}
+  .card-header[style*="flex-wrap"]{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .data-table{font-size:.75rem;overflow-x:auto;display:block}
+  .data-table thead th{padding:.5rem .75rem}
+  .data-table tbody td{padding:.6rem .75rem}
+  .table-user{flex-direction:column;gap:.25rem}
+  .table-actions{flex-direction:column;gap:.25rem}
+  .table-actions .btn{width:100%;justify-content:center}
   .login-wrapper{flex-direction:column}
   .login-left{width:100%;padding:2rem}
   .login-right{padding:2rem}

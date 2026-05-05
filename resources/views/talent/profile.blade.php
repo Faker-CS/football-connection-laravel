@@ -2,12 +2,12 @@
 @section('title', 'Mon Profil - Talent')
 
 @section('content')
-<div class="grid-2" style="grid-template-columns:1fr 2fr">
+<div class="grid-2">
     {{-- Left Column: Photo & Quick Info --}}
     <div>
         <div class="card mb-2">
-            <div class="card-body" style="text-align:center;padding:2rem">
-                <div class="talent-avatar" style="width:80px;height:80px;font-size:1.5rem;margin:0 auto 1rem">{{ $talent['initials'] }}</div>
+            <div class="card-body" style="text-align:center">
+                <div class="talent-avatar" style="margin:0 auto 1rem">{{ $talent['initials'] }}</div>
                 <h3 style="font-size:1.1rem;font-weight:700">{{ $talent['name'] }}</h3>
                 <p class="text-muted" style="font-size:.82rem">{{ $talent['role'] }}</p>
                 <p class="text-muted text-sm mt-1">📍 {{ $talent['city'] }}, {{ $talent['country'] }}</p>
@@ -19,7 +19,7 @@
         <div class="card mb-2">
             <div class="card-header"><h3 class="card-title">Compétences</h3></div>
             <div class="card-body">
-                <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                <div class="d-flex flex-wrap" style="gap:.4rem">
                     @foreach($skills as $skill)
                         <x-badge color="green">{{ $skill }}</x-badge>
                     @endforeach
@@ -32,8 +32,8 @@
             <div class="card-header"><h3 class="card-title">Postes recherchés</h3></div>
             <div class="card-body">
                 @foreach($positions as $pos)
-                    <div style="padding:.4rem 0;font-size:.82rem;display:flex;align-items:center;gap:.5rem">
-                        <span style="width:6px;height:6px;border-radius:50%;background:var(--green-dark)"></span>
+                    <div class="d-flex align-center" style="padding:.4rem 0;font-size:.82rem;gap:.5rem">
+                        <span style="width:6px;height:6px;border-radius:50%;background:var(--green-dark);flex-shrink:0"></span>
                         {{ $pos }}
                     </div>
                 @endforeach
@@ -77,19 +77,19 @@
 
         {{-- Experience --}}
         <div class="card mb-2">
-            <div class="card-header">
+            <div class="card-header" style="flex-wrap:wrap">
                 <h3 class="card-title">Expériences professionnelles</h3>
                 <button class="btn btn-outline btn-sm">+ Ajouter</button>
             </div>
             <div class="card-body" style="padding:0">
                 @foreach($experiences as $exp)
                 <div style="padding:1.25rem 1.5rem;border-bottom:1px solid var(--border)">
-                    <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                        <div>
+                    <div class="d-flex justify-between" style="gap:1rem;flex-wrap:wrap;align-items:flex-start">
+                        <div style="flex:1;min-width:0">
                             <div class="fw-600" style="font-size:.9rem">{{ $exp['title'] }}</div>
                             <div class="text-muted text-sm">{{ $exp['club'] }} · {{ $exp['period'] }}</div>
                         </div>
-                        <button class="btn btn-outline btn-sm btn-icon">
+                        <button class="btn btn-outline btn-sm btn-icon" style="flex-shrink:0">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         </button>
                     </div>
@@ -101,23 +101,23 @@
 
         {{-- Documents --}}
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" style="flex-wrap:wrap">
                 <h3 class="card-title">Documents</h3>
                 <button class="btn btn-outline btn-sm">+ Ajouter</button>
             </div>
             <div class="card-body">
                 @foreach($documents as $doc)
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid var(--border)">
-                    <div style="display:flex;align-items:center;gap:.75rem">
-                        <div style="width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,.08);display:flex;align-items:center;justify-content:center">
+                <div class="d-flex align-center justify-between" style="padding:.65rem 0;border-bottom:1px solid var(--border);gap:.75rem;flex-wrap:wrap">
+                    <div class="d-flex align-center" style="gap:.75rem;min-width:0;flex:1">
+                        <div style="width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0">
                             <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                         </div>
-                        <div>
+                        <div style="min-width:0">
                             <div class="fw-600 text-sm">{{ $doc['name'] }}</div>
                             <div class="text-muted text-xs">{{ $doc['size'] }} · {{ $doc['date'] }}</div>
                         </div>
                     </div>
-                    <button class="btn btn-outline btn-sm">Télécharger</button>
+                    <button class="btn btn-outline btn-sm" style="flex-shrink:0">Télécharger</button>
                 </div>
                 @endforeach
                 <div class="upload-zone mt-2">
