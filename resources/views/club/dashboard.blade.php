@@ -2,12 +2,12 @@
 @section('title', 'Tableau de bord - Club')
 
 @section('content')
-    <div class="welcome-banner flex flex-row items-center justify-between">
-        <div class="">
+    <div class="welcome-banner">
+        <div>
             <h2>Bienvenue, {{ $club['name'] }} !</h2>
             <p>Gérez vos offres, suivez vos candidatures et trouvez les meilleurs talents.</p>
         </div>
-        <div class="welcome-cta ">
+        <div class="welcome-cta">
             <a href="{{ route('club.offers.create') }}" class="btn btn-primary btn-lg">+ Publier une offre</a>
             <a href="{{ route('club.applications') }}" class="btn btn-outline btn-lg">Voir les candidatures</a>
         </div>
@@ -65,7 +65,7 @@
                 @foreach ($recent_applications as $app)
                     <div
                         style="padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.85rem">
-                        <div class="table-avatar" style="background:linear-gradient(135deg,var(--green-dark),#4ade80) " >
+                        <div class="table-avatar" style="background:linear-gradient(135deg,var(--green-dark),#4ade80) ">
                             {{ $app['initials'] }}</div>
                         <div style="flex:1;min-width:0">
                             <div class="fw-600" style="font-size:.85rem">{{ $app['name'] }}</div>

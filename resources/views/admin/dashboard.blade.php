@@ -3,8 +3,8 @@
 
 @section('content')
 <div class="welcome-banner" style="background:linear-gradient(135deg,#0a1a18 0%,#1a3a35 50%,#0f2420 100%)">
-    <h2>Tableau de bord administrateur</h2>
-    <p>Vue d'ensemble de la plateforme Football Connect</p>
+    <h2>Tableau de bord administrateur<p>Vue d'ensemble de la plateforme Football Connect</p></h2>
+    
 </div>
 
 <div class="stats-grid">

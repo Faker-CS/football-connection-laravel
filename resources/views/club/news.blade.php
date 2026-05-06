@@ -26,7 +26,7 @@
             <div style="display:flex;align-items:center;justify-content:space-between">
                 <span class="text-muted text-xs">📅 {{ $item['date'] }}</span>
                 <div class="table-actions">
-                    <button class="btn btn-outline btn-sm">Modifier</button>
+                    <button class="btn btn-dark btn-sm">Modifier</button>
                     <button class="btn btn-danger btn-sm">Supprimer</button>
                 </div>
             </div>
