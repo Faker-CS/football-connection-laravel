@@ -61,7 +61,7 @@
       ></textarea>
     </div>
 
-    {{-- Main Content with Word Counter --}}
+    {{-- Main Content with Rich Text Editor --}}
     <div class="form-group">
       <label class="form-label">
         Contenu
@@ -70,40 +70,53 @@
       <textarea 
         class="form-input blog-content-textarea" 
         id="blogContent" 
-        name="content" 
-        rows="6"
+        name="content"
         placeholder="Écrivez le contenu complet de votre article..."
-        oninput="updateWordCount()"
         required
+        oninput="updateWordCount()"
       ></textarea>
     </div>
 
     {{-- Featured Image Upload --}}
-    <div class="form-group">
-      <label class="form-label">Image de couverture</label>
-      <div class="upload-zone" id="uploadZone" ondrop="handleImageDrop(event)" ondragover="handleImageDragOver(event)" ondragleave="handleImageDragLeave(event)">
-        <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
-        <div id="uploadZoneContent">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 0.5rem; color: var(--muted);">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <circle cx="8.5" cy="8.5" r="1.5"/>
-            <path d="M21 15l-5-5L5 21"/>
-          </svg>
-          <div style="font-weight: 600; font-size: 0.85rem; color: var(--text); margin-bottom: 0.25rem;">
-            Glissez votre image ici ou cliquez pour sélectionner
-          </div>
-          <div style="font-size: 0.75rem; color: var(--muted);">
-            Formats acceptés: JPG, PNG (max 5 MB)
-          </div>
-        </div>
-        <div id="imagePreview" style="display: none;">
-          <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin-bottom: 0.75rem;">
-          <button type="button" class="btn btn-sm btn-danger" onclick="removeImage()" style="width: 100%;">
-            Supprimer l'image
-          </button>
-        </div>
+    <x-image-upload 
+      name="image" 
+      label="Image de couverture"
+      id="blogFeaturedImage"
+      maxSize="5"
+    />
+
+    {{-- Meta SEO Fields --}}
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">
+          Meta Titre
+          <span class="form-hint" id="metaTitleCounter">— 0/60 caractères</span>
+        </label>
+        <input 
+          type="text" 
+          class="form-input" 
+          id="metaTitle" 
+          name="meta_title" 
+          placeholder="Titre pour les moteurs de recherche"
+          maxlength="60"
+          oninput="updateCharCounter(this, 60, 'metaTitleCounter')"
+        >
       </div>
-      <input type="hidden" id="imageBase64" name="image_base64">
+      <div class="form-group">
+        <label class="form-label">
+          Meta Description
+          <span class="form-hint" id="metaDescCounter">— 0/160 caractères</span>
+        </label>
+        <textarea 
+          class="form-input" 
+          id="metaDescription" 
+          name="meta_description" 
+          rows="2"
+          placeholder="Description pour les moteurs de recherche"
+          maxlength="160"
+          oninput="updateCharCounter(this, 160, 'metaDescCounter')"
+        ></textarea>
+      </div>
     </div>
 
     {{-- Reading Time and Tags --}}
@@ -174,37 +187,34 @@
     resize: vertical;
   }
 
-  .upload-zone {
-    position: relative;
-    border: 2px dashed var(--border);
-    border-radius: var(--radius);
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all var(--transition);
-    background: var(--white);
-  }
-
-  .upload-zone:hover {
-    border-color: var(--green);
-    background: rgba(172, 209, 163, 0.03);
-  }
-
-  .upload-zone.dragover {
-    border-color: var(--green);
-    background: rgba(172, 209, 163, 0.08);
-  }
-
-  #imagePreview img {
-    display: block;
-  }
-
   .form-hint {
     color: var(--muted);
     font-weight: 400;
     font-size: 0.7rem;
   }
+
+  /* CKEditor 5 Custom Styling */
+  .ck-editor__editable {
+    min-height: 300px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    font-family: inherit !important;
+  }
+
+  .ck-toolbar {
+    background: var(--white) !important;
+    border: 1px solid var(--border) !important;
+    border-bottom: none !important;
+    border-radius: var(--radius) var(--radius) 0 0 !important;
+  }
+
+  .ck-content {
+    font-size: 0.95rem;
+  }
 </style>
+
+<!-- CKEditor 5 CDN -->
+<script src="{{ asset('js/ckeditor.js') }}"></script>
 
 <script>
   // Global blog editor state
@@ -218,8 +228,10 @@
 
   // Update word count
   window.updateWordCount = function() {
-    const content = document.getElementById('blogContent').value;
-    const words = content.trim().split(/\s+/).filter(w => w.length > 0).length;
+    // Word count will be updated after CKEditor loads
+    const content = document.querySelector('.ck-editor__editable').innerHTML;
+    const plainText = new DOMParser().parseFromString(content, 'text/html').body.textContent;
+    const words = plainText.trim().split(/\s+/).filter(w => w.length > 0).length;
     document.getElementById('wordCounter').textContent = `— ${words} mots`;
   };
 
@@ -246,57 +258,7 @@
     document.getElementById('seoDescLength').textContent = excerpt.length;
   };
 
-  // Image upload handlers
-  window.handleImageDrop = function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    document.getElementById('uploadZone').classList.remove('dragover');
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      document.getElementById('imageInput').files = files;
-      handleImageSelect({ target: { files: files } });
-    }
-  };
-
-  window.handleImageDragOver = function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    document.getElementById('uploadZone').classList.add('dragover');
-  };
-
-  window.handleImageDragLeave = function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    document.getElementById('uploadZone').classList.remove('dragover');
-  };
-
-  window.handleImageSelect = function(e) {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        document.getElementById('previewImg').src = event.target.result;
-        document.getElementById('imageBase64').value = event.target.result;
-        document.getElementById('uploadZoneContent').style.display = 'none';
-        document.getElementById('imagePreview').style.display = 'block';
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  window.removeImage = function() {
-    document.getElementById('imageInput').value = '';
-    document.getElementById('imageBase64').value = '';
-    document.getElementById('uploadZoneContent').style.display = 'block';
-    document.getElementById('imagePreview').style.display = 'none';
-  };
-
-  // Click upload zone to open file selector
-  document.getElementById('uploadZone').addEventListener('click', function(e) {
-    if (e.target.closest('#imagePreview') === null) {
-      document.getElementById('imageInput').click();
-    }
-  });
+  // Image upload is now handled by the reusable image-upload component
 
   // Form submission - Publish
   document.getElementById('blogArticleForm').addEventListener('submit', function(e) {
@@ -320,7 +282,7 @@
       document.getElementById('blogArticleForm').reset();
       document.getElementById('currentBlogId').value = '';
       currentBlogId = null;
-      removeImage();
+      removeImage_blogFeaturedImage();
       updateSeoPreview();
       updateWordCount();
       document.getElementById('blogArticleModal').querySelector('.modal-title').textContent = 'Rédiger un nouvel article';
@@ -373,7 +335,7 @@
     // Close modal and reset
     ModalManager.close('blogArticleModal');
     document.getElementById('blogArticleForm').reset();
-    removeImage();
+    removeImage_blogFeaturedImage();
     currentBlogId = null;
   };
 
@@ -417,8 +379,162 @@
     document.head.appendChild(style);
   }
 
-  // Initialize SEO preview on load
+  // Initialize SEO preview and CKEditor on load
   document.addEventListener('DOMContentLoaded', function() {
     updateSeoPreview();
+    
+    // Initialize CKEditor 5
+    CKEDITOR.ClassicEditor.create(document.getElementById("blogContent"), {
+                // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+                toolbar: {
+                    items: [
+                        'exportPDF','exportWord', '|',
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                        'bulletedList', 'numberedList', 'todoList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                        'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                        'textPartLanguage', '|',
+                        'sourceEditing'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                // Changing the language of the interface requires loading the language file using the <script> tag.
+                // language: 'es',
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                        { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                        { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                        { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                    ]
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+                placeholder: 'Welcome to CKEditor 5!',
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+                fontSize: {
+                    options: [ 10, 12, 14, 'default', 18, 20, 22 ],
+                    supportAllValues: true
+                },
+                // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+                // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
+                    ]
+                },
+                // Be careful with enabling previews
+                // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+                htmlEmbed: {
+                    showPreviews: true
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+                link: {
+                    decorators: {
+                        addTargetToExternalLinks: true,
+                        defaultProtocol: 'https://',
+                        toggleDownloadable: {
+                            mode: 'manual',
+                            label: 'Downloadable',
+                            attributes: {
+                                download: 'file'
+                            }
+                        }
+                    }
+                },
+                // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+                mention: {
+                    feeds: [
+                        {
+                            marker: '@',
+                            feed: [
+                                '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                                '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                                '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                                '@sugar', '@sweet', '@topping', '@wafer'
+                            ],
+                            minimumCharacters: 1
+                        }
+                    ]
+                },
+                // The "super-build" contains more premium features that require additional configuration, disable them below.
+                // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+                removePlugins: [
+                    // These two are commercial, but you can try them out without registering to a trial.
+                    // 'ExportPdf',
+                    // 'ExportWord',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+                    // Storing images as Base64 is usually a very bad idea.
+                    // Replace it on production website with other solutions:
+                    // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+                    // 'Base64UploadAdapter',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+                    // from a local file system (file://) - load this site via HTTP server if you enable MathType
+                    'MathType'
+                ]
+            }).then(editor => {
+      // Update word count on content change
+      editor.model.document.on('change:data', function() {
+        window.updateWordCount();
+      });
+
+      // Sync textarea with editor content on form submit
+      document.getElementById('blogArticleForm').addEventListener('submit', function() {
+        document.getElementById('blogContent').value = editor.getData();
+      });
+    }).catch(err => {
+      console.error('CKEditor initialization failed:', err);
+    });
   });
 </script>

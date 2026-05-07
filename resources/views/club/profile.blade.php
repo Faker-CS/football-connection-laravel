@@ -19,9 +19,9 @@
             <div class="card-header"><h3 class="card-title">Réseaux sociaux</h3></div>
             <div class="card-body">
                 @foreach($club['social'] as $platform => $handle)
-                <div style="display:flex;align-items:center;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border)">
-                    <span class="fw-600 text-sm" style="text-transform:capitalize">{{ $platform }}</span>
-                    <span class="text-muted text-sm">{{ $handle }}</span>
+                <div class="form-group">
+                    <span class="fw-600 text-md" style="text-transform:capitalize gap:2rem">{{ $platform }}</span>
+                    <input type="text" class="form-input" value="{{ $handle }}">
                 </div>
                 @endforeach
             </div>

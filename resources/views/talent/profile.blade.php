@@ -19,11 +19,14 @@
         <div class="card mb-2">
             <div class="card-header"><h3 class="card-title">Compétences</h3></div>
             <div class="card-body">
-                <div class="d-flex flex-wrap" style="gap:.4rem">
-                    @foreach($skills as $skill)
-                        <x-badge color="green">{{ $skill }}</x-badge>
-                    @endforeach
-                </div>
+                <x-tag-input 
+                    name="skills" 
+                    label="Ajouter vos compétences"
+                    placeholder="Ajouter une compétence..."
+                    :tags="$skills"
+                    maxTags="20"
+                    separator="comma"
+                />
             </div>
         </div>
 
@@ -120,11 +123,12 @@
                     <button class="btn btn-outline btn-sm" style="flex-shrink:0">Télécharger</button>
                 </div>
                 @endforeach
-                <div class="upload-zone mt-2">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24" style="margin:0 auto .5rem"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                    <p>Glissez-déposez vos fichiers ici ou <span style="color:var(--green-dark);font-weight:600">parcourir</span></p>
-                    <p class="text-xs text-muted mt-1">PDF, DOC, DOCX · Max 10 MB</p>
-                </div>
+                <x-image-upload
+                    name="featured_image"
+                    label="Image de profil"
+                    id="talentFeaturedImage"
+                    maxSize="5"
+                />
             </div>
         </div>
     </div>

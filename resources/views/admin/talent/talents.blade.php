@@ -17,7 +17,7 @@
     <x-stat-card icon="star" color="red" :value="$stats['suspended']" label="Suspendus"/>
 </div>
 
-<x-data-table :headers="['Talent', 'Rôle', 'Localisation', 'Candidatures', 'Inscription', 'Statut', 'Actions']">
+<x-data-table :headers="['Talent', 'Spécialité', 'Localisation', 'Candidatures', 'Inscription', 'Statut', 'Actions']">
     @foreach($talents as $talent)
     <tr>
         <td>
@@ -33,7 +33,7 @@
         <td><x-badge :color="$talent['status_color']">{{ $talent['status'] }}</x-badge></td>
         <td>
             <div class="table-actions">
-                <button class="btn btn-outline btn-sm">Voir</button>
+                <a href="{{ route('admin.talents.show', $talent['id']) }}" class="btn btn-outline btn-sm">Voir</a>
                 @if($talent['status'] === 'Actif')
                     <button class="btn btn-danger btn-sm">Suspendre</button>
                 @elseif($talent['status'] === 'Suspendu')

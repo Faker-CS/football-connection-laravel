@@ -39,7 +39,7 @@
                 <td><x-badge :color="$club['status_color']">{{ $club['status'] }}</x-badge></td>
                 <td>
                     <div class="table-actions">
-                        <button class="btn btn-outline btn-sm">Voir</button>
+                        <a href="{{ route('admin.clubs.show', $club['id']) }}" class="btn btn-outline btn-sm">Voir</a>
                         @if ($club['status'] === 'En attente')
                             <button class="btn btn-success btn-sm">Approuver</button>
                         @endif

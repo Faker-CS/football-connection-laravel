@@ -84,24 +84,12 @@
                 <textarea class="form-input" id="pubArticleContent" name="article_content" rows="5"
                     placeholder="Rédigez votre article ici..."></textarea>
             </div>
-            <div class="form-group">
-                <label class="form-label">Image de couverture <span class="form-hint">(optionnel)</span></label>
-                <div class="upload-zone" onclick="document.getElementById('pubArticleImg').click()"
-                    style="border:2px dashed var(--border);border-radius:var(--radius-sm);padding:2rem;text-align:center;color:var(--muted);cursor:pointer;transition:all var(--transition);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        style="width:32px;height:32px;margin:0 auto 0.5rem;">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="17 8 12 3 7 8" />
-                        <line x1="12" y1="3" x2="12" y2="15" />
-                    </svg>
-                    <p><strong>Cliquez pour importer</strong> une image</p>
-                    <p style="font-size:.78rem;margin-top:0.25rem;">PNG, JPG · max 5 Mo</p>
-                    <input type="file" id="pubArticleImg" accept="image/*" onchange="previewArticleImage(this)">
-                </div>
-                <div id="pubArticleImgPreview"
-                    style="display:none;margin-top:.6rem;border-radius:10px;overflow:hidden;height:100px;"><img
-                        style="width:100%;height:100%;object-fit:cover;"></div>
-            </div>
+            <x-image-upload 
+                name="article_image" 
+                label="Image de couverture"
+                id="pubArticleImage"
+                maxSize="5"
+            />
         </div>
 
         {{-- Stats Fields --}}
@@ -141,23 +129,14 @@
 
         {{-- Gallery Fields --}}
         <div class="pub-field-gallery" style="display:none;">
-            <div class="form-group">
-                <label class="form-label">Photos <span class="form-hint">(6 max)</span></label>
-                <div class="upload-zone" onclick="document.getElementById('pubGalleryFiles').click()"
-                    style="border:2px dashed var(--border);border-radius:var(--radius-sm);padding:2rem;text-align:center;color:var(--muted);cursor:pointer;transition:all var(--transition);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        style="width:32px;height:32px;margin:0 auto 0.5rem;">
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <circle cx="8.5" cy="8.5" r="1.5" />
-                        <polyline points="21 15 16 10 5 21" />
-                    </svg>
-                    <p><strong>Cliquez pour importer</strong> vos photos</p>
-                    <p style="font-size:.78rem;margin-top:0.25rem;">PNG, JPG · 6 photos max · 5 Mo par photo</p>
-                    <input type="file" id="pubGalleryFiles" accept="image/*" multiple
-                        onchange="previewGalleryImages(this)">
-                </div>
-                <div id="pubGalleryPreview" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;"></div>
-            </div>
+            <x-image-upload 
+                name="gallery_photos" 
+                label="Photos"
+                id="pubGalleryPhotos"
+                multiple="true"
+                maxFiles="6"
+                maxSize="5"
+            />
         </div>
 
         {{-- Publish Toggle --}}
@@ -209,43 +188,6 @@
 
         // Show selected type fields
         document.querySelector('.pub-field-' + type).style.display = 'block';
-    };
-
-    window.previewArticleImage = function(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById('pubArticleImgPreview');
-                preview.querySelector('img').src = e.target.result;
-                preview.style.display = 'block';
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    };
-
-    window.previewGalleryImages = function(input) {
-        const preview = document.getElementById('pubGalleryPreview');
-        preview.innerHTML = '';
-
-        if (input.files) {
-            const maxFiles = 6;
-            const files = Math.min(input.files.length, maxFiles);
-
-            for (let i = 0; i < files; i++) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const thumb = document.createElement('div');
-                    thumb.style.cssText =
-                        'width:80px;height:80px;border-radius:8px;overflow:hidden;flex-shrink:0;';
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
-                    thumb.appendChild(img);
-                    preview.appendChild(thumb);
-                };
-                reader.readAsDataURL(input.files[i]);
-            }
-        }
     };
 
     document.addEventListener('DOMContentLoaded', function() {

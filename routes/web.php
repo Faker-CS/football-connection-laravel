@@ -46,7 +46,9 @@ Route::prefix('club')->name('club.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/clubs', [Admin\ClubsController::class, 'index'])->name('clubs');
+    Route::get('/clubs/{id}', [Admin\ClubsController::class, 'show'])->name('clubs.show');
     Route::get('/talents', [Admin\TalentsController::class, 'index'])->name('talents');
+    Route::get('/talents/{id}', [Admin\TalentsController::class, 'show'])->name('talents.show');
     Route::get('/offers', [Admin\OffersController::class, 'index'])->name('offers');
     Route::get('/applications', [Admin\ApplicationsController::class, 'index'])->name('applications');
     Route::get('/news', [Admin\NewsController::class, 'index'])->name('news');
