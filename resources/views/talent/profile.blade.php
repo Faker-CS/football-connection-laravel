@@ -26,19 +26,56 @@
                 </div>
             </div>
 
-            {{-- Positions --}}
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Postes recherchés</h3>
+            {{-- Documents --}}
+            <div class="card mb-2">
+                <div class="card-header" style="flex-wrap:wrap">
+                    <h3 class="card-title">CV (visible uniquement par les clubs)</h3>
                 </div>
                 <div class="card-body">
-                    @foreach ($positions as $pos)
-                        <div class="d-flex align-center" style="padding:.4rem 0;font-size:.82rem;gap:.5rem">
-                            <span
-                                style="width:6px;height:6px;border-radius:50%;background:var(--green-dark);flex-shrink:0"></span>
-                            {{ $pos }}
+                    @foreach ($cv as $cvDoc)
+                        <div class="d-flex align-center justify-between mb-2"
+                            style="padding:.65rem 0;border-bottom:1px solid var(--border);gap:.75rem;flex-wrap:wrap">
+                            <div class="d-flex align-center" style="gap:.75rem;min-width:0;flex:1">
+                                <div
+                                    style="width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="16"
+                                        height="16">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                        <polyline points="14 2 14 8 20 8" />
+                                    </svg>
+                                </div>
+                                <div style="min-width:0">
+                                    <div class="fw-600 text-sm">{{ $cvDoc['name'] }}</div>
+                                    <div class="text-muted text-xs">{{ $cvDoc['size'] }} · {{ $cvDoc['date'] }}</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-dark btn-sm" style="flex-shrink:0">Télécharger</button>
+                            <button class="btn btn-outline btn-md" title="Supprimer" style="color:#ef4444">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    width="16" height="16">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                </svg>
+                            </button>
                         </div>
                     @endforeach
+                    <x-image-upload name="featured_image" label="Ajouter nouveau CV" type="any" id="talentFeaturedImage"
+                        maxSize="5" />
+                    <button class="btn btn-primary btn-lg w-full">+ Ajouter</button>
+                </div>
+            </div>
+
+            <!-- DIPLÔMES -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Diplômes & Certifications</span>
+                    <button class="btn btn-primary btn-md" onclick="openAddDiplomaModal()">+ Ajouter</button>
+                </div>
+                <div class="card-body" id="diplomasList">
+                    <!-- Diplomas will be rendered here by JavaScript -->
                 </div>
             </div>
         </div>
@@ -83,7 +120,7 @@
             <div class="card mb-2">
                 <div class="card-header" style="flex-wrap:wrap">
                     <h3 class="card-title">Expériences professionnelles</h3>
-                    <button class="btn btn-outline btn-sm" onclick="openAddExperienceModal()">+ Ajouter</button>
+                    <button class="btn btn-outline btn-md" onclick="openAddExperienceModal()">+ Ajouter</button>
                 </div>
                 <div class="card-body" style="padding:0" id="experiencesList">
                     @foreach ($experiences as $index => $exp)
@@ -95,19 +132,19 @@
                                     <div class="text-muted text-sm">{{ $exp['club'] }} · {{ $exp['period'] }}</div>
                                 </div>
                                 <div style="display:flex;gap:0.5rem;flex-shrink:0">
-                                    <button class="btn btn-outline btn-sm btn-icon"
+                                    <button class="btn btn-outline btn-md"
                                         onclick="openEditExperienceModal({{ $index }})" title="Modifier">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            width="14" height="14">
+                                            width="16" height="16">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                         </svg>
                                     </button>
-                                    <button class="btn btn-outline btn-sm btn-icon"
+                                    <button class="btn btn-outline btn-md"
                                         onclick="deleteExperience({{ $index }})" title="Supprimer"
                                         style="color:#ef4444">
                                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            width="14" height="14">
+                                            width="16" height="16">
                                             <polyline points="3 6 5 6 21 6" />
                                             <path
                                                 d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
@@ -123,48 +160,39 @@
                 </div>
             </div>
 
-            {{-- Documents --}}
-            <div class="card">
-                <div class="card-header" style="flex-wrap:wrap">
-                    <h3 class="card-title">Documents</h3>
-                    <button class="btn btn-outline btn-sm">+ Ajouter</button>
-                </div>
-                <div class="card-body">
-                    @foreach ($documents as $doc)
-                        <div class="d-flex align-center justify-between"
-                            style="padding:.65rem 0;border-bottom:1px solid var(--border);gap:.75rem;flex-wrap:wrap">
-                            <div class="d-flex align-center" style="gap:.75rem;min-width:0;flex:1">
-                                <div
-                                    style="width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"
-                                        width="16" height="16">
-                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                        <polyline points="14 2 14 8 20 8" />
-                                    </svg>
-                                </div>
-                                <div style="min-width:0">
-                                    <div class="fw-600 text-sm">{{ $doc['name'] }}</div>
-                                    <div class="text-muted text-xs">{{ $doc['size'] }} · {{ $doc['date'] }}</div>
-                                </div>
-                            </div>
-                            <button class="btn btn-outline btn-sm" style="flex-shrink:0">Télécharger</button>
-                        </div>
-                    @endforeach
-                    <x-image-upload name="featured_image" label="Ajouter nouveau document" type="any" id="talentFeaturedImage"
-                        maxSize="5" />
-                </div>
-            </div>
         </div>
     </div>
 
     {{-- Experience Modal --}}
     @include('components.modals.experience-form')
 
+    {{-- Diploma Modal --}}
+    @include('components.modals.diploma-form')
+
     <script>
         /**
          * Initialize experiences data from controller
          */
         window.talentExperiences = @json($experiences ?? []);
+
+        /**
+         * Initialize diplomas mock data
+         */
+        window.talentDiplomas = [{
+                name: 'UEFA B Licence',
+                institution: 'FFF',
+                year: 2020,
+                status: 'verified',
+                document: null
+            },
+            {
+                name: 'BPJEPS Football',
+                institution: 'CREPS Paris',
+                year: 2018,
+                status: 'verified',
+                document: null
+            }
+        ];
 
         /**
          * Delete experience
@@ -181,6 +209,96 @@
                     }
                 }));
             }
+        }
+
+        /**
+         * Delete diploma
+         */
+        function deleteDiploma(dipIndex) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce diplôme ?')) {
+                window.talentDiplomas.splice(dipIndex, 1);
+                updateDiplomasList();
+                showToast('Diplôme supprimé.');
+            }
+        }
+
+        /**
+         * Update diplomas list UI
+         */
+        function updateDiplomasList() {
+            const container = document.getElementById('diplomasList');
+
+            if (!window.talentDiplomas || window.talentDiplomas.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:2rem;color:var(--muted);font-size:0.875rem">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:32px;height:32px;margin:0 auto 0.5rem;opacity:0.5;">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        </svg>
+                        <p>Aucun diplôme ajouté</p>
+                    </div>
+                    <div class="diplome-item" style="border:1.5px dashed var(--border);background:transparent;cursor:pointer;margin-top:1rem;" onclick="openAddDiplomaModal()">
+                        <div class="diplome-icon" style="background:var(--bg);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg></div>
+                        <div class="diplome-info">
+                            <h4 style="color:var(--muted);">Ajouter un diplôme</h4>
+                            <span>Cliquez pour ajouter une certification</span>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            const diplomasHTML = window.talentDiplomas.map((dip, index) => {
+                // const statusBadge = dip.status === 'verified' 
+                //     ? '<span class="badge badge-green">Vérifié</span>'
+                //     : '<span class="badge badge-gray">En attente</span>';
+
+                return `
+                    <div class="diplome-item justify-between">
+                        <div class="diplome-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                            <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                        </svg></div>
+                        <div class="diplome-info" style="flex:1">
+                            <h4>${dip.name}</h4>
+                            <span>${dip.institution} · Obtenu en ${dip.year}</span>
+                        </div>
+                        <div >
+                            
+                            <button class="btn btn-outline btn-md" onclick="openEditDiplomaModal(${index})" title="Modifier">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                </svg>
+                            </button>
+                            <button class="btn btn-outline btn-md" onclick="deleteDiploma(${index})" title="Supprimer" style="color:#ef4444">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                    <polyline points="3 6 5 6 21 6" />
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = diplomasHTML + `
+                <div class="diplome-item" style="border:1.5px dashed var(--border);background:transparent;cursor:pointer;margin-top:1rem;" onclick="openAddDiplomaModal()">
+                    <div class="diplome-icon" style="background:var(--bg);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                    </svg></div>
+                    <div class="diplome-info">
+                        <h4 style="color:var(--muted);">Ajouter un diplôme</h4>
+                        <span>Cliquez pour ajouter une certification</span>
+                    </div>
+                </div>
+            `;
         }
 
         /**
@@ -245,6 +363,9 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Render diplomas on load
+            updateDiplomasList();
+
             // Experiences are already in DOM from Laravel
             // Just ensure the modal manager is available
             if (typeof ModalManager === 'undefined') {

@@ -29,10 +29,8 @@ class ProfileController extends Controller
                 ['title' => 'Assistant Préparateur', 'club' => 'AS Saint-Étienne', 'period' => '2019 - 2022', 'description' => 'Assistant du préparateur physique pour l\'équipe réserve et U19'],
                 ['title' => 'Préparateur Physique', 'club' => 'FC Nantes', 'period' => '2017 - 2019', 'description' => 'Préparation physique du centre de formation'],
             ],
-            'documents' => [
+            'cv' => [
                 ['name' => 'CV_Marc_Lefebvre.pdf', 'size' => '2.4 MB', 'date' => '15 Mar 2026'],
-                ['name' => 'Diplome_STAPS.pdf', 'size' => '1.1 MB', 'date' => '10 Jan 2026'],
-                ['name' => 'Certificat_Premiers_Secours.pdf', 'size' => '0.8 MB', 'date' => '05 Dec 2025'],
             ],
         ];
 

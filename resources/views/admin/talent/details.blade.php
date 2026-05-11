@@ -160,7 +160,7 @@
 {{-- Documents Section --}}
 <div class="card" style="margin-bottom:2rem">
     <div class="card-header">
-        <h3 class="card-title">Documents</h3>
+        <h3 class="card-title">Documents attachés</h3>
     </div>
     <div class="card-body">
         @forelse($talent['documents'] as $document)
